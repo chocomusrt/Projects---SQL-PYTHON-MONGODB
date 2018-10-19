@@ -1,3 +1,7 @@
+/* Find the number of monthly unsolved crime incidents by category.  Table used based on the following site 
+https://community.modeanalytics.com/sql/tutorial/sql-subqueries/
+*/
+
 SELECT
 month,
        CASE
