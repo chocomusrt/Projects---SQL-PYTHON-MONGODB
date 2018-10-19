@@ -1,2 +1,2 @@
-# Python
+# Projects - Python & SQL
 Small Projects
