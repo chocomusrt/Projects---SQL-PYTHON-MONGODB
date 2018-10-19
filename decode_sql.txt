@@ -1,0 +1,34 @@
+SELECT
+month,
+       CASE
+           WHEN piv.category = 'ARSON' then incidentsnum
+           ELSE null
+       END AS ARSON,
+       CASE
+           WHEN piv.category = 'ASSAULT' then incidentsnum
+           ELSE null
+       END AS ASSAULT,
+       CASE
+           WHEN piv.category = 'BURGLARY' then incidentsnum
+           ELSE null
+       END AS BURGLARY
+FROM
+  (SELECT count(sub.incident) AS incidentsnum,
+          sub.category,
+          sub.month
+   FROM
+     (SELECT incidnt_num AS incident,
+             category,
+             substr(date, 1,2) AS
+      month,
+             resolution
+      FROM tutorial.sf_crime_incidents_2014_01
+      WHERE resolution = 'NONE'
+        AND category IN('ARSON',
+                        'ASSAULT',
+                        'BURGLARY')
+      ORDER BY date, category) sub
+   GROUP BY sub.category,
+            sub.month
+   ORDER BY sub.month) piv
+ORDER BY piv.month ASC;
