@@ -1,0 +1,23 @@
+Steps to import transaction stocks to mongoDB
+
+1. Save transaction file as .csv
+2. Go to this website, which will automatic generate csv into json http://www.convertcsv.com/csv-to-json.htm
+3. Add the following to the top and bottom of the file.
+
+db = db.getSiblingDB("video"); // video is the db name
+db.transactionStocks.drop(); // transactionStocks is the collection name
+db.transactionStocks.insertMany([ 
+//In between here, have all of the data for your stock transactions//
+
+]);
+
+4. Save the file as xxxx.json and at a directory where the file will be uploaded 
+    ssh to the path of where the file is saved: my case it's users/chocomusrt/xxxx/xxx/xxx.json
+    Connect to your mongoDB shell
+    https://youtu.be/1QlQ5kxtMS8
+5. load("<xxxx.json>")
+6. Access the newly added collections
+    show dbs
+    show collections
+7.  On the MongoDB compass, refresh the connection and locate the stock transactions you have uploaded!
+
