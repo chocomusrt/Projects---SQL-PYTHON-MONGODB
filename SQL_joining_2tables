@@ -1,0 +1,16 @@
+/*Select statement is to "union" two tables with different criterias from 
+https://community.modeanalytics.com/sql/tutorial/sql-union/*/
+
+SELECT company_permalink,
+       company_name,
+       investor_name
+FROM tutorial.crunchbase_investments_part1
+where company_name like 'T%' and 
+raised_amount_usd > 20000
+UNION all
+SELECT company_permalink,
+       company_name,
+       investor_name
+FROM tutorial.crunchbase_investments_part2
+where company_name like 'M%'
+and raised_amount_usd > 10000;
