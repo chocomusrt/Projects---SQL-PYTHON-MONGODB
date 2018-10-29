@@ -7,15 +7,13 @@
 
 select first_name, salary, department_id
 from employees
-where salary in ( select salary from employees 
-						      where department = 20)
+where salary in ( select salary from employees where department = 20)
 
 //Display the first name, salary, and department number for all employees who earn more than maximum salary in department number 50 (Employees table).
 
 select first_name, salary, department_id
 from employees
-where salary > all (select max(salary) from employees from 
-				          department_id = 50)
+where salary > all (select max(salary) from employees from department_id = 50)
 
 //Display the first name, salary, and department number for all employees who earn more than the minimum salary in department number 60 (Employees table).
 
@@ -36,5 +34,5 @@ and l.city = ‘Seattle’
 select first_name, salary, department_id
 from employees e
 where e.salary < (select avg(salary) from employees)
-and d.department_id = (select department_id from departmentwhere first_name = ‘kevin’)
+and d.department_id = (select department_id from department where first_name = ‘kevin’)
 
