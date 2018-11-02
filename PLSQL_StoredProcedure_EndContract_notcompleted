@@ -8,33 +8,23 @@ is
     v_contract_start  customers.contract_start%type
     v_contract_end    customers.contract_end%type
     v_plan_type       customers.plant_type%type
-    
-begin
-    select cust_id, cust_mob_num, contract_start, contract_end, plan_type 
+ 
+ cursor ending_contract_by_city is 
+ select cust_id, cust_mob_num, contract_start, contract_end, plan_type 
     into v_cust_id, v_cust_mob_num, v_contract_start, v_contract_end, v_plan_type    
     from customers
     where cust_DOB between to_date('01-01-1973', 'mm/dd/yyyy') and to_date('12-30-1999','mm/dd/yyyy')
     and contract_end = (select trunc(sysdate+30) from dual)
     order by cust_city;
-    
-    dbms_output.put_line()
-end;
-
-
-declare
-v_name customers.name%type;
-v_salary customers.salary%type;
-cursor show_salary is
-select name, salary into v_name, v_salary
-from customers;
+ 
 begin
-open show_salary;
-loop
-fetch show_salary into v_name, v_salary;
-
-EXIT WHEN show_salary%notfound; 
-      dbms_output.put_line(  v_name|| ' makes ' || v_salary); 
-   END LOOP; 
-   CLOSE show_salary;
-
+   open ending_contract_by_city;
+   loop
+   fetch ending_contract_by_city into v_cust_id, v_cust_mob_num, v_contract_start, v_contract_end, v_plan_type;
+   
+   exit when ending_contract_by_city%notfound;
+        dbms_output.put_line('Cust_ID: ' ||v_cust_id|| ' Cust_Cell: ' ||v_cust_mob_num|| ' Start_Date: ' ||v_contract_start|| 
+                             ' End_date: ' ||v_contract_end|| ' Sub_Plan: '||v_plan_type);
+  end loop;
+  close ending_contract_by_city;
 end;
